@@ -1,0 +1,117 @@
+= San Diego Versioning (SdVer)
+Version 0.0.0-0
+
+= Summary
+
+This is a standard for version identifiers. San Diego version identifiers look like MAJOR.MINOR.PATCH (possibly followed by optional parts "-PRE_RELEASE+BUILD_METADATA").
+ +
+ +
+
+At least the MINOR version MUST be incremented when a backwards-incompatible change is made, except when either MAJOR or MINOR is 0.
+ +
+ +
+
+
+= San Diego Versioning Specification
+A version identifier must take the form X.Y.Z(-PRE_RELEASE)(+BUILD_METADATA) where X, Y, and Z are non-negative integers and must not contain leading zeroes, and each of -PRE_RELEASE and +BUILD_METADATA are optional. X is the major version, Y is the minor version, Z is the patch version. X, Y, and Z must increase numerically. For instance: 1.9.0 -> 1.10.0 -> 1.11.0.
+ +
+ +
+
+A "normal release" version identifer is one without pre-release information.
+ +
+ +
+
+Once a versioned package has been released, the contents of that version must not be modified. Any modifications must be released as a new version.
+ +
+ +
+
+Major version zero, and every version with minor version zero (0.y.z or x.0.z) are for initial development. In this case, anything may change between versions (without even bumping the minor version number for backwards-incompatibilities), and the software should not be considered stable.
+ +
+ +
+
+When the major version is greater than 0, and the minor version is greater than 0, then either the minor version Y (x.Y.z) or the major version (X.y.z) must be incremented if any backwards-incompatible changes are introduced.
+ +
+ +
+
+Patch version must be reset to 0 when the minor version is incremented. Minor and patch version must be reset to 0 when the major version is incremented.
+ +
+ +
+
+A pre-release version may be denoted by appending a hyphen and a pre-release version identifier immediately following the patch version. A hyphen followed by an empty pre-release version identifier string is considered equivalent to no hyphen, that is, to a normal release rather than a pre-release. The pre-release version identifier is a string containing of a series of zero or more hyphen-separated identifiers. These hyphen-separated identifiers must be non-empty and must contain only ASCII alphanumerics and underscore [0-9A-Za-z_]. Pre-release versions have a lower precedence than the associated normal version. A pre-release version may be unstable and might not satisfy the intended compatibility requirements as denoted by its associated normal version. Examples: 1.0.0-alpha, 1.0.0-alpha-1, 1.0.0-0-3-7, 1.0.0-x-7-z-92.
+ +
+ +
+
+Build metadata may be denoted by appending a plus sign and build metadata immediately following the patch or pre-release version. A plus followed by an empty build metadata string is considered equivalent to no plus, that is, to a version identifier without optional build metadata. The build metadata is a string containing only ASCII alphanumerics and underscore and plus [0-9A-Za-z_+]. Build metadata SHOULD be ignored when determining version precedence; two versions that differ only in the build metadata should have the same precedence. Examples: 1.0.0-alpha+001, 1.0.0+20130313144700, 1.0.0-beta+exp+sha+5114f85.
+ +
+ +
+
+Precedence refers to how versions are compared to each other when ordered. Precedence must be calculated by separating the version into major, minor, patch and pre-release identifiers in that order (Build metadata does not figure into precedence). Precedence is determined by the first difference when comparing each of these identifiers from left to right as follows: Major, minor, and patch versions are always compared numerically. Example: 1.0.0 < 2.0.0 < 2.1.0 < 2.1.1. When major, minor, and patch are equal, a pre-release version has lower precedence than a normal version. Example: 1.0.0-alpha < 1.0.0. Precedence for two pre-release versions with the same major, minor, and patch version must be determined by comparing each hyphen separated identifier from left to right until a difference is found as follows: identifiers consisting of only digits are compared numerically and identifiers with letters or underscore are compared lexically in ASCII sort order. Numeric identifiers always have lower precedence than non-numeric identifiers. A larger set of pre-release fields has a higher precedence than a smaller set, if all of the preceding identifiers are equal. Example: 1.0.0-alpha < 1.0.0-alpha-1 < 1.0.0-alpha-beta < 1.0.0-beta < 1.0.0-beta-2 < 1.0.0-beta-11 < 1.0.0-rc-1 < 1.0.0.
+ +
+ +
+
+The major, minor, and patch versions must each be less than 32768. The pre-release version identifier must be at most 22 characters, including the hyphen separators (but not the hyphen that precedes the pre-release version identifier). The build metadata must be at most 86 characters (not including the plus sign that precedes the build metadata). When expressed as a string, the length of a version identifier is always less than 128 characters.
+ +
+ +
+
+
+
+= FAQ
+[qanda]
+
+Q: How does this compare to Semantic Versioning (SemVer)? +
+A: Major differences are:
+
+* Semantic Versioning uses the MAJOR version to express backwards incompatible API changes, we use the MINOR version. We leave the major version up to you.
+* Semantic Versioning reserves major version 0 for 'anything goes' (you don't have to bump the minor version for backwards-incompatibility). We further reserve EVERY minor version 0 of EVERY major release for 'anything goes'.
+* We give length limits, making it easier to write tooling that accepts all valid San Diego Versioning versions
+* Semantic Versioning distinguishes between backwards-compatible API changes (minor version bumps) and other backwards-compatible changes (patch version bumps), we don't.
+* Semantic Versioning specifies that it applies only to software that declares a public API. San Diego Versioning applies to anything that needs a version.
+* We allow underscores in the pre-release and build metadata. We use hyphen instead of dots in the pre-release identifier, and we use pluses instead of dots in the build metadata.
+* We define a pre-release hyphen followed by an empty pre-release identifier string to be the same as a normal release, and similarly for empty string build metadatas.
+
+{empty} +
+
+Q: Does updating dependencies count as a backwards-incompatible change? +
+A: No.
+ +
+ +
+
+Q: What should the first development version be? +
+A: It's up to you, but i like 0.0.0-0.
+ +
+ +
+
+Q: Do you have any suggestions for format of the pre-release version? +
+A: I suggest the format: either 'X', 'alpha-X' (or 'a-X'), 'beta-X' (or 'b-X'), or 'rc-X', where X is a number. In this format, from least mature to most mature, 'X' denotes a development pre-release, 'alpha-X' denotes a pre-release undergoing initial testing, 'beta-X' denotes a pre-release which is undergoing further testing, 'rc' ("release candidate") denotes a pre-release which is a candidate for normal release, but which is still undergoing testing (typically there is a series of release candidates, fixing newly discovered bugs, and then eventually the series ends when some release candidate is deemed to be good enough and is then re-released as a normal release). Sometimes the difference between alpha and beta is that alpha is of unknown quality and/or is primarily for internal testing, whereas beta has been tested a little and does not have any known critical bugs, and/or is offered for testing to a wider audience of external users.
+ +
+ +
+
+Q: What are some common uses of the build metadata? +
+A: To include a commit hash and/or build date and/or build UUID and/or build options.
+ +
+ +
+
+Q: Why do you allow empty pre-release identifiers and empty build metadatas? +
+A: To allow tooling to store a version by three signed 16-bit numbers and two strings, and represent normal releases by leaving the pre-release identifier string empty.
+ +
+ +
+
+Q: Why did you make the max character length of the pre-release and build metadatas 22 and 86 characters? +
+A: The three numbers plus dot separators plus the hyphen plus the plus sign are at most 19 characters. We want the build metadata to fit at least a SHA-256 hash plus some other stuff, and a SHA-256 hash is often written as 64 hex digits. We'd like the whole thing to fit in 128 characters or less (256 characters just seemed like too much; also, with a 128-character limit, you can fit a version ID plus some other stuff in a 140- or 255- character field). If the 'other stuff' in the build metadata is 16 characters, and the pre-release identifier is the same length as that (16 characters), then the whole thing is at most 115 characters. 16 characters is a little tight for the pre-release id, and we have a little extra space with 115, and the 'other stuff' in build metadatas probably wants to be long as much as pre-release ids do, so if we give each of the build metadata and the pre-release ID 6 more characters, we get 126 characters total.
+ +
+ +
+
+Q: If a system only supports San Diego Versioning with further restrictions, for example, with only one field within the pre-release identifier, or with shorter character limits, or without properly sorting pre-release identifiers, can it be said to support San Diego Versioning? +
+A: Such a system can be described as supporting "San Diego Versioning but ...". For example, "San Diego Versioning but with all pre-release ids sorted alphabetically and with build metadata of max 32 characters", or "San Diego Versioning but with only numeric pre-release ids, constrained to be less than 256, and without build metadata". A system that can't be described in this way in a single sentence of reasonable length cannot be said to support San Diego Versioning.
+ +
+ +
+
+Q: Who made this? +
+A: Bayle Shanks, but most of the credit goes to Tom Preston-Werner and his Semantic Versioning, which inspired this, and from which i copied most of the wording.
+ +
+ +
+
+Q: What is the copyright license for this document? +
+A: CC BY-SA 3.0 ( https://creativecommons.org/licenses/by/3.0/ )
+ +
+ +
