@@ -1,5 +1,6 @@
 = San Diego Versioning (SdVer)
-Version 0.0.0-0
+
+Version 0.0.0-1
 
 = Summary
 
@@ -7,7 +8,14 @@ This is a standard for version identifiers. San Diego version identifiers look l
  +
  +
 
-At least the MINOR version MUST be incremented when a backwards-incompatible change is made, except when either MAJOR or MINOR is 0.
+A release cannot have breaking changes unless: +
+ (a) either the MAJOR or MINOR version is 0, OR +
+ (b) the new release increments the MINOR or MAJOR version (not just the PATCH version) +
+ (note: there can also be breaking changes between PRE-releases, since these are not full releases)
+ +
+ +
+
+In other words, at least the MINOR version MUST be incremented when a backwards-incompatible change is made, except when either MAJOR or MINOR is 0.
  +
  +
 
@@ -61,12 +69,17 @@ The major, minor, and patch versions must each be less than 32768. The pre-relea
 Q: How does this compare to Semantic Versioning (SemVer)? +
 A: Major differences are:
 
-* Semantic Versioning uses the MAJOR version to express backwards incompatible API changes, we use the MINOR version. We leave the major version up to you.
-* Semantic Versioning reserves major version 0 for 'anything goes' (you don't have to bump the minor version for backwards-incompatibility). We further reserve EVERY minor version 0 of EVERY major release for 'anything goes'.
+* SdVer bumps the MINOR version for backwards incompatibilities and reserves MAJOR version bumps for subjectively "big" changes. Semantic Versioning bumps the MAJOR version for backwards incompatibilities.
+* Semantic Versioning reserves major version 0 for 'anything goes' (you don't have to bump the minor version for backwards-incompatibility). We further reserve EVERY minor version 0 of EVERY major release for 'anything goes'. The motivation for this is that even old projects may periodically go through a major restructuring, during which, just like in version 0, they need to release a long sequence of 'experimental' versions before re-stabilizing). Our system is similar to the older idea of even/odd 'unstable release series', except that we are using minor version 0 in place of the parity of the major version.
 * We give length limits, making it easier to write tooling that accepts all valid San Diego Versioning versions
-* Semantic Versioning distinguishes between backwards-compatible API changes (minor version bumps) and other backwards-compatible changes (patch version bumps), we don't.
-* Semantic Versioning specifies that it applies only to software that declares a public API. San Diego Versioning applies to anything that needs a version.
-* We allow underscores in the pre-release and build metadata. We use hyphen instead of dots in the pre-release identifier, and we use pluses instead of dots in the build metadata.
+
+{empty} +
+
+Other differences include:
+
+* We don't distinguish between backwards-compatible API changes/feature additions, and mere bugfixes; Semantic Versioning does (in SemVer, feature additions get a minor version bump, and backwards-compatible bugfixes only get a patch version bump)
+* San Diego Versioning can apply to anything that needs a version. Semantic Versioning specifies that it can only apply to software that declares a public API
+* We allow underscores in the pre-release and build metadata. We use hyphens instead of dots in the pre-release identifier, and we use pluses instead of dots in the build metadata.
 * We define a pre-release hyphen followed by an empty pre-release identifier string to be the same as a normal release, and similarly for empty string build metadatas.
 
 {empty} +
