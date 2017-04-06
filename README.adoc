@@ -1,6 +1,6 @@
 = San Diego Versioning (SdVer)
 
-Version 0.0.0-1
+Version 0.0.0-2
 
 = Summary
 
@@ -9,13 +9,13 @@ This is a standard for version identifiers. San Diego version identifiers look l
  +
 
 A release cannot have breaking changes unless: +
- (a) either the MAJOR or MINOR version is 0, OR +
+ (a) either the MAJOR version is 0, OR +
  (b) the new release increments the MINOR or MAJOR version (not just the PATCH version) +
  (note: there can also be breaking changes between PRE-releases, since these are not full releases)
  +
  +
 
-In other words, at least the MINOR version MUST be incremented when a backwards-incompatible change is made, except when either MAJOR or MINOR is 0.
+In other words, at least the MINOR version MUST be incremented when a backwards-incompatible change is made, except when MAJOR is 0.
  +
  +
 
@@ -33,11 +33,11 @@ Once a versioned package has been released, the contents of that version must no
  +
  +
 
-Major version zero, and every version with minor version zero (0.y.z or x.0.z) are for initial development. In this case, anything may change between versions (without even bumping the minor version number for backwards-incompatibilities), and the software should not be considered stable.
+Major version zero is for initial development. In this case, anything may change between versions (without even bumping the minor version number for backwards-incompatibilities), and the software should not be considered stable.
  +
  +
 
-When the major version is greater than 0, and the minor version is greater than 0, then either the minor version Y (x.Y.z) or the major version (X.y.z) must be incremented if any backwards-incompatible changes are introduced.
+When the major version is greater than 0, then either the minor version Y (x.Y.z) or the major version (X.y.z) must be incremented if any backwards-incompatible changes are introduced.
  +
  +
 
@@ -70,7 +70,6 @@ Q: How does this compare to Semantic Versioning (SemVer)? +
 A: Major differences are:
 
 * SdVer bumps the MINOR version for backwards incompatibilities and reserves MAJOR version bumps for subjectively "big" changes. Semantic Versioning bumps the MAJOR version for backwards incompatibilities.
-* Semantic Versioning reserves major version 0 for 'anything goes' (you don't have to bump the minor version for backwards-incompatibility). We further reserve EVERY minor version 0 of EVERY major release for 'anything goes'. The motivation for this is that even old projects may periodically go through a major restructuring, during which, just like in version 0, they need to release a long sequence of 'experimental' versions before re-stabilizing). Our system is similar to the older idea of even/odd 'unstable release series', except that we are using minor version 0 in place of the parity of the major version.
 * We give length limits, making it easier to write tooling that accepts all valid San Diego Versioning versions
 
 {empty} +
