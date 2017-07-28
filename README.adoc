@@ -25,11 +25,11 @@ A version identifier must take the form X.Y.Z(-PRE_RELEASE)(+BUILD_METADATA) whe
  +
  +
 
-A "normal release" version identifer is one without pre-release information.
+A "normal release" version identifer is one without pre-release information, and where at least one of the major, minor, or patch versions is non-zero.
  +
  +
 
-Once a versioned package has been released, the contents of that version must not be modified. Any modifications must be released as a new version.
+Once a versioned package has been released, the contents of that version must not be modified. Any modifications must be released as a new version. However, a version of 0.0.0 (that is, major, minor, and patch versions are all zero) denotes that this versioned package, even if public, is not considered a 'release' (and so may be modified without version change or re-release) -- this may be useful as a placeholder during early development.
  +
  +
 
