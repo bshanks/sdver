@@ -121,12 +121,11 @@ A: Such a system can be described as supporting "San Diego Versioning but ...". 
  +
 
 Q: Who made this? +
-
 A: Bayle Shanks, but most of the credit goes to Tom Preston-Werner and his Semantic Versioning ( https://github.com/semver/semver/blob/master/semver.md ), which inspired this, and from which i copied most of the wording.
  +
  +
 
 Q: What is the copyright license for this document? +
-A: CC BY-SA 3.0 ( https://creativecommons.org/licenses/by/3.0/ )
+A: CC BY 3.0 ( https://creativecommons.org/licenses/by/3.0/ )
  +
  +
