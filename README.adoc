@@ -72,6 +72,8 @@ A: Major differences are:
 * SdVer bumps the MINOR version for backwards incompatibilities and reserves MAJOR version bumps for subjectively "big" changes. Semantic Versioning bumps the MAJOR version for backwards incompatibilities.
 * We give length limits, making it easier to write tooling that accepts all valid San Diego Versioning versions
 
+You can find SemVer at https://github.com/semver/semver/blob/master/semver.md
+
 {empty} +
 
 Other differences include:
@@ -119,7 +121,8 @@ A: Such a system can be described as supporting "San Diego Versioning but ...". 
  +
 
 Q: Who made this? +
-A: Bayle Shanks, but most of the credit goes to Tom Preston-Werner and his Semantic Versioning, which inspired this, and from which i copied most of the wording.
+
+A: Bayle Shanks, but most of the credit goes to Tom Preston-Werner and his Semantic Versioning ( https://github.com/semver/semver/blob/master/semver.md ), which inspired this, and from which i copied most of the wording.
  +
  +
 
